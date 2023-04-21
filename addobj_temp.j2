@@ -1,0 +1,17 @@
+{% if obj_type == 'ipnetmask' %}
+set shared address "{{ name }}" ip-netmask {{
+subnet }}
+{% if comment != "none" %}
+set shared address "{{ name }}" description "{{ comment }}"
+{% endif %}
+{% elif obj_type == 'iprange' %}
+set shared address "{{ name }}" ip-range {{ start_ip }}-{{ end_ip }}
+{% if comment != "none" %}
+set shared address "{{ name }}" description "{{ comment }}"
+{% endif %}
+{% elif obj_type == 'fqdn' and fqdn != "none" %}
+set shared address "{{ name }}" fqdn {{ fqdn }}
+{% if comment != "none" %}
+set shared address "{{ name }}" description "{{ comment }}"
+{% endif %}
+{% endif %}

@@ -1,0 +1,5 @@
+set service {{ service_name }} protocol {{ protocol }} port {{ port_number }}
+{% for range in port_ranges %}
+{{ range.port_type }}-port {{ range.start_port }}-{{ range.end_port }}{{ "," if not loop.last else "" }}
+{% endfor %}
+

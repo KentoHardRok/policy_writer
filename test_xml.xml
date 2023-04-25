@@ -1,0 +1,41 @@
+<response status="success" code="19">
+  <result total-count="1" count="1">
+    <shared>
+			<address>
+				<entry name="mirror.cc.columbia.edu">
+					<fqdn>mirror.cc.columbia.edu</fqdn>
+				</entry>
+				<entry name="mirror.cc. - columbia">
+					<fqdn>mirror.cc.columbia.edu</fqdn>
+				</entry>
+				<entry name="mirror.cc.columbia">
+					<fqdn>mirror.cc.columbia.edu</fqdn>
+				</entry>
+				<entry name="s3-us-east-1-r-w.amazonaws.com">
+					<fqdn>s3-us-east-1-r-w.amazonaws.com</fqdn>
+				</entry>
+				<entry name="es.us-gov-east-1.amazonaws.com">
+					<fqdn>ssmmessages.us-gov-east-1.amazonaws.com</fqdn>
+				</entry>
+				<entry name="Site 229 - Hanover">
+					<ip-netmask>10.160.0.0/16</ip-netmask>
+					<description>3/22/18 - CR#14992</description>
+				</entry>
+			</address>
+				<address-group>
+					<entry name="testgroup4">
+						<static>
+							<member>mirror.cc.columbia</member>
+							<member>Site 229 - Hanover</member>
+						</static>
+					</entry>
+					<entry name="testgroup5">
+						<static>
+							<member>mirror.cc.columbia</member>
+							<member>Site 229 - Hanover</member>
+						</static>
+					</entry>
+				</address-group>
+    </shared>
+  </result>
+</response>

@@ -1,7 +1,9 @@
+{% if members|length > 0 %}
       <entry name={{ group_name }}>
         <static>
         {% for member in members %}
-          <member>{{ member }}</member>
+          <member>{{ member|replace("\"", "") }}</member>
         {% endfor %}
         </static>
       </entry>
+{% endif %}

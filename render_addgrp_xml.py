@@ -13,8 +13,8 @@ def extract_strings(string):
 
 
 #Import csv of grp definitions into pandas df
-dfgrp = pd.read_csv('va3_grp.csv')
-dfadd = pd.read_csv('va3_name_only.csv')
+dfgrp = pd.read_csv('va1_grp.csv')
+dfadd = pd.read_csv('va1_name_only.csv')
 
 dfadd['name'] = dfadd['name'].apply(lambda x: '"' + x + '"')
 dfgrp['name'] = dfgrp['name'].apply(lambda x: '"' + x + '"')
@@ -38,22 +38,32 @@ dfgrp['member'] = dfgrp['member'].apply(lambda x: [item for item in
 # now lets make sure there are no duplicates in these lists
 dfgrp['member'] = dfgrp['member'].apply(lambda x: list(set(x)))
 
+# here we strip the " from the members only
+dfgrp['member'] = dfgrp['member'].apply(lambda x: x.strip('"') if isinstance(x, str) else x)
+
+dfgrp['name'] = dfgrp['name'].str.replace(r'^"[^a-zA-Z0-9]+', '"', regex=True)
+
 # open template
 with open('addgrp_xml.j2') as file:
     template = Template(file.read())
 
-with open('va3_addgrp_xml.txt', 'a') as f:
+with open('config/va1_addgrp.xml', 'a') as f:
+    f.write('<config>\n')
+    f.write('  <shared>\n')
+    f.write('    <address-group>\n')
     for index, row in dfgrp.iterrows():
-        # Below we are assigning values to each of the values used in the template
-        # per row
-            addgrp_config = template.render(
-                group_name=row['name'],
-                members=row['member']
-            )
-        # Remove empty lines from the rendered output
-            output_lines = [line for line in addgrp_config.split('\n') if line.strip()]
-        # Append the output to the output file
-            f.write('\n'.join(output_lines))
-            f.write('\n')
+    # Below we are assigning values to each of the values used in the template
+    # per row
+        addgrp_config = template.render(
+            group_name=row['name'],
+            members=row['member']
+        )
+    # Remove empty lines from the rendered output
+        output_lines = [line for line in addgrp_config.split('\n') if line.strip()]
+    # Append the output to the output file
+        f.write('\n'.join(output_lines))
+        f.write('\n')
 
-# dont forget to run sed -i '/\[[[:space:]]*\]/d' va3_addgrp_config.txt
+    f.write('    </address-group>\n')
+    f.write('  </shared>\n')
+    f.write('</config>\n')

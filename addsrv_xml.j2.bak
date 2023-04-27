@@ -1,0 +1,54 @@
+{% if tcp_dst is defined and tcp_dst is not none and tcp_dst|length == 1 %} 
+      <entry name={{ service_name }}>
+        <protocol>
+          <tcp>
+            <port>{{ tcp_dst }}</port>
+            {% if tcp_src is defined and tcp_src is not none and tcp_src != '' and tcp_src|length == 1 %}
+            <source-port>{{ tcp_src }}</source-port>
+            {% endif %}          
+          </tcp>
+      </entry>
+{% endif %}          
+{% if udp_dst is defined and udp_dst is not none and udp_dst|length == 1 %}
+      <entry name={{ service_name }}>
+        <protocol>
+          <udp>
+            <port>{{ udp_dst }}</port>
+            {% if udp_src is defined and udp_src is not none and udp_src != '' and udp_src|length == 1 %}
+            <source-port>{{ udp_src }}</source-port>
+            {% endif %}          
+          </udp>
+        </protocol>
+      </entry>
+{% endif %}          
+{% if tcp_dst is defined and tcp_dst is not none and tcp_dst|length > 1 %} 
+  {% set counter = 0 %}
+  {% for dst in tcp_dst %} 
+      <entry name={{ service_name }}_{{ counter }}>
+        <protocol>
+          <tcp>
+            <port>{{ dst }}</port>
+            {% if tcp_src[counter] is defined %}
+            <source-port>{{ tcp_src[counter]}}</source-port>
+            {% endif %}          
+          </tcp>
+        {% set counter = counter + 1 %}  
+        </protocol>
+      </entry>
+  {% endfor %}
+{% elif udp_dst is defined and udp_dst is not none and udp_dst|length > 1 %} 
+  {% set counter = 0 %}
+  {% for dst in udp_dst %} 
+      <entry name={{ service_name }}_{{ counter }}>
+        <protocol>
+          <udp>
+            <port>{{ dst }}</port>
+            {% if udp_src[counter] is defined %}
+            <source-port>{{ udp_src[counter] }}</source-port>
+            {% endif %}          
+          </udp>
+        </protocol>
+      </entry>
+  {% set counter = counter + 1 %}  
+  {% endfor %}
+{% endif %}

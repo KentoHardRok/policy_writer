@@ -1,16 +1,27 @@
-
-<config>
-  <shared>
-    <service>
-      <entry name="my-service">
+{% if tcp_dst is defined and tcp_dst is not none %} 
+  {% set counter = 0 %}
+      <entry name={{ service_name }}>
         <protocol>
           <tcp>
-            <port>1000-34000</port>
-            <source-port>89</source-port>
+            <port>{{ tcp_dst }}</port>
+            {% if tcp_src is defined and tcp_src is not none and tcp_src is not none %}
+            <source-port>{{ tcp_src }}</source-port>
+            {% endif %}          
           </tcp>
+        {% set counter = counter + 1 %}  
+      </entry>
+{% endif %}          
+{% if udp_dst is defined and udp_dst is not none %}
+  {% set counter = 0 %}
+      <entry name={{ service_name }}_udp>
+        <protocol>
+          <udp>
+            <port>{{ udp_dst }}</port>
+            {% if udp_src is defined and udp_src is not none and udp_src != is not none %}
+            <source-port>{{ udp_src }}</source-port>
+            {% endif %}          
+          </udp>
+        {% set counter = counter + 1 %}  
         </protocol>
       </entry>
-    </service>
-  </shared>
-</config>
-
+{% endif %}          

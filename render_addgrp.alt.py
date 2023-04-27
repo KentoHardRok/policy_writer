@@ -16,8 +16,7 @@ dfgrp['name'] = dfgrp.apply(lambda row: nc(row['name']) if
 
 #dfgrp['name'] = dfgrp['name'].replace(' ', '', regex=True)
 
-# define a regular expression pattern to match the strings between quotes
-pattern = r'"[^"]*"'
+# define a regular expression pattern to match the strings between quotespattern = r'"[^"]*"'
 
 
 # define a function to extract the strings and return them as a list

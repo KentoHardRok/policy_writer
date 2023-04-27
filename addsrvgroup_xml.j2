@@ -1,0 +1,21 @@
+{% if tcp-dst is defined or udp-dst is defined %} 
+      <entry name={{ service_name }}>
+        <protocol>
+        {% if tcp-dst is defined %}
+          <tcp>
+            <port>{{ tcp-dst }}</port>
+          {% if tcp-src is defined %}
+            <source-port>{{ tcp-src }}</source-port>
+          {% endif %}          
+          </tcp>
+        {% elif udp-dst is defined %}
+          <udp>
+            <port>{{ udp-dst }}</port>
+          {% if udp-src is defined %}
+            <source-port>{{ udp-src }}</source-port>
+          {% endif %}          
+          </udp>
+        {% endif %}          
+        </protocol>
+      </entry>
+{% endif %}

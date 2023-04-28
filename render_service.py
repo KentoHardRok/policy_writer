@@ -39,8 +39,6 @@ dfsrv[['tcp-dst', 'tcp-src']] = dfsrv['tcp-portrange'].apply(split_num)
 # split the udp-portrange column into two columns
 dfsrv[['udp-dst', 'udp-src']] = dfsrv['udp-portrange'].apply(split_num)
 
-print(dfsrv.loc[492, 'tcp-dst'])
-
 # Here I am putting everything into a list
 #dfsrv[['tcp-dst', 'tcp-src', 'udp-dst', 'udp-src']] = dfsrv[['tcp-dst', 'tcp-src', 'udp-dst', 'udp-src']].apply(lambda x: x.split(' '))
 
@@ -48,7 +46,7 @@ print(dfsrv.loc[492, 'tcp-dst'])
 with open('addsrv_xml.j2') as file:
     template = Template(file.read())
 
-with open('va1_addsrv_config.xml', 'a') as f:
+with open('config/va1_addsrv_config.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <service>\n')

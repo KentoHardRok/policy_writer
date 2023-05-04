@@ -43,6 +43,8 @@ dfgrp['member'] = dfgrp['member'].apply(lambda x: x.strip('"') if isinstance(x, 
 
 dfgrp['name'] = dfgrp['name'].str.replace(r'^"[^a-zA-Z0-9]+', '"', regex=True)
 
+dfgrp['name'].to_csv('va1_grpname_only.csv', index=False)
+
 # open template
 with open('addgrp_xml.j2') as file:
     template = Template(file.read())

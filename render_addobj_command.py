@@ -4,7 +4,7 @@ from jinja2 import Template
 import re
 
 # This is where I read in the CSV file and save it to the Pandas DF
-df = pd.read_csv('va1_add.csv')
+df = pd.read_csv('va3_add.csv')
 
 # This next one liner converts the subnet column to a cidr notation
 df['subnet'] = df.apply(lambda row: mkcidr(row['subnet']) if pd.notna(row['subnet']) else row['subnet'], axis=1)
@@ -47,13 +47,13 @@ dfprint = df.loc[(df['visibility'] != 'disabled') & (df['type'] != 'geography')
         & (df['fqdn'] != 'none')]
 
 # export the "name" column to a new CSV file
-dfprint['name'].to_csv('va1_name_only.csv', index=False)
+dfprint['name'].to_csv('va3_name_only.csv', index=False)
 
 # Opening the template
 with open('addobj_temp.j2') as file:
         template = Template(file.read())
 
-with open('va1_addobj_config.txt', 'a') as f:
+with open('va3_addobj_config.txt', 'a') as f:
     for _, row in df[df['visibility'] != 'disabled'].iterrows():
         # Below we are assigning values to each of the values used in the template
         # per row

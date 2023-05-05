@@ -22,7 +22,7 @@ def split_num(x):
         return pd.Series([left, right])
 
 #Import csv of grp definitions into pandas df
-dfsrv = pd.read_csv('va1_serv.csv')
+dfsrv = pd.read_csv('va3_serv.csv')
 
 dfsrv['name'] = dfsrv['name'].apply(lambda x: '"' + x + '"')
 
@@ -43,7 +43,7 @@ dfsrv[['udp-dst', 'udp-src']] = dfsrv['udp-portrange'].apply(split_num)
 #dfsrv[['tcp-dst', 'tcp-src', 'udp-dst', 'udp-src']] = dfsrv[['tcp-dst', 'tcp-src', 'udp-dst', 'udp-src']].apply(lambda x: x.split(' '))
 
 
-dfsrv['name'].to_csv('va1_srvname_only.csv', index=False)
+dfsrv['name'].to_csv('va3_srvname_only.csv', index=False)
 
 # open template
 with open('addsrv_xml.j2') as file:
@@ -53,7 +53,7 @@ with open('addsrv_xml.j2') as file:
 with open('addsrvgroup_xml.j2') as Gfile:
     template_grp = Template(Gfile.read())
 
-with open('config/va1_addsrv_config.xml', 'a') as f:
+with open('config/va3_addsrv_config.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <service>\n')
@@ -77,7 +77,7 @@ with open('config/va1_addsrv_config.xml', 'a') as f:
     f.write('  </shared>\n')
     f.write('</config>\n')
 
-with open('config/va1_addsrvgrp_config.xml', 'a') as f:
+with open('config/va3_addsrvgrp_config.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <service-group>\n')

@@ -1,8 +1,9 @@
-{% if udp_dst is not none and tcp_dst is not none %}
+{% if members |reject('eq', '') | list | length > 0 %}
       <entry name={{ service_name }}>
         <members>
-            <member>{{ service_name|replace('"', "") }}_tcp</member>
-            <member>{{ service_name|replace('"', "") }}_udp</member>
+        {% for member in members %}
+            <member>{{ member }}</member>
+        {% endfor %}    
         </members>
       </entry>
 {% endif %}          

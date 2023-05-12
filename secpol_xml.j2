@@ -1,0 +1,178 @@
+               {% if customurl |reject('eq', '') | list | length > 0 %} 
+								<entry name={{ rule_name.rstrip("\"") }}_url">
+                  <profile-setting>
+                   {% if urlfiltering |reject('eq', '') | list | length > 0 or virus |reject('eq', '') | list | length > 0 or vulnerability |reject('eq', '') | list | length > 0 %}
+                    <profiles>
+                     {% if urlfiltering |reject('eq', '') | list | length > 0 %}
+                      <url-filtering>
+                        {% for url in urlfiltering %}
+                          {% if url == "CACI-Default-Web" %}
+                            {% set url = "Alert-Only" %}
+                          {% endif %}
+                        <member>{{ url }}</member>
+                        {% endfor %}
+                      </url-filtering>
+                     {% endif %}
+                     {% if virus |reject('eq', '') | list | length > 0 %}
+                      <virus>
+                        {% for vi in virus %}
+                        <member>{{ vi }}</member>
+                        {% endfor %}
+                      </virus>
+                     {% endif %}
+                     {% if vulnerability |reject('eq', '') | list | length > 0 %}
+                      <vulnerability>
+                        {% for vn in vulnerability %}
+                          {% if vn in ['CACI-Default-Egress', 'all_default',
+                          'protect_client'] %}
+                            {% set vn = "CACI-Default-VP" %}
+                          {% endif %}
+                          <member>{{ vn }}</member>
+                        {% endfor %}
+                      </vulnerability>
+                    {% endif %}
+                    </profiles>
+                   {% else %}
+                    <group>
+                      <member>default</member>
+                    </group>
+                   {% endif %}
+                  </profile-setting>
+                  <to>
+                  {% for dz in dstzone %}
+                    <member>{{ dz }}</member>
+                  {% endfor %}
+                  </to>
+                  <from>
+                  {% for sz in srczone %}
+                    <member>{{ sz }}</member>
+                  {% endfor %}
+                  </from>
+                  <source>
+                  {% for si in srcip %}
+                    <member>{{ si }}</member>
+                  {% endfor %}
+                  </source>
+                  <destination>
+                    <member>any</member>
+                  </destination>
+                  <source-user>
+                  {% if userid |reject('eq', '') | list | length > 0 %}
+                    {% for usr in userid %}
+                    <member>CN={{ usr }},OU=STANDARD,OU=GROUPS,OU=CORP,DC=CACI,DC=COM</member>
+                    {% endfor %}
+                  {% else %}
+                    <member>any</member>
+                  {% endif %}
+                  </source-user>
+                  <category>
+                    {% for custom in customurl %}
+                    <member>{{ custom }}</member>
+                    {% endfor %}
+                  </category>
+                  <application>
+                    <member>any</member>
+                  </application>
+                  <service>
+                  {% for srv in services %}
+                    <member>{{ srv }}</member>
+                  {% endfor %}
+                  </service>
+                  <source-hip>
+                    <member>any</member>
+                  </source-hip>
+                  <destination-hip>
+                    <member>any</member>
+                  </destination-hip>
+                  <action>{{ action }}</action>
+                  <log-setting>default</log-setting>
+                </entry>
+              {% endif %}
+                <entry name={{ rule_name }}>
+                  <profile-setting>
+                   {% if urlfiltering |reject('eq', '') | list | length > 0 or virus |reject('eq', '') | list | length > 0 or vulnerability |reject('eq', '') | list | length > 0 %}
+                    <profiles>
+                     {% if urlfiltering |reject('eq', '') | list | length > 0 %}
+                      <url-filtering>
+                        {% for url in urlfiltering %}
+                          {% if url == "CACI-Default-Web" %}
+                            {% set url = "Alert-Only" %}
+                          {% endif %}
+                        <member>{{ url }}</member>
+                        {% endfor %}
+                      </url-filtering>
+                     {% endif %}
+                     {% if virus |reject('eq', '') | list | length > 0 %}
+                      <virus>
+                        {% for vi in virus %}
+                        <member>{{ vi }}</member>
+                        {% endfor %}
+                      </virus>
+                     {% endif %}
+                     {% if vulnerability |reject('eq', '') | list | length > 0 %}
+                      <vulnerability>
+                        {% for vn in vulnerability %}
+                          {% if vn in ['CACI-Default-Egress', 'all_default',
+                          'protect_client'] %}
+                            {% set vn = "CACI-Default-VP" %}
+                          {% endif %}
+                          <member>{{ vn }}</member>
+                        {% endfor %}
+                      </vulnerability>
+                    {% endif %}
+                    </profiles>
+                   {% else %}
+                    <group>
+                      <member>default</member>
+                    </group>
+                   {% endif %}
+                  </profile-setting>
+                  <to>
+                  {% for dz in dstzone %}
+                    <member>{{ dz }}</member>
+                  {% endfor %}
+                  </to>
+                  <from>
+                  {% for sz in srczone %}
+                    <member>{{ sz }}</member>
+                  {% endfor %}
+                  </from>
+                  <source>
+                  {% for si in srcip %}
+                    <member>{{ si }}</member>
+                  {% endfor %}
+                  </source>
+                  <destination>
+                  {% for di in dstip %}
+                    <member>{{ di }}</member>
+                  {% endfor %}
+                  </destination>
+                  <source-user>
+                  {% if userid |reject('eq', '') | list | length > 0 %}
+                    {% for usr in userid %}
+                    <member>CN={{ usr }},OU=STANDARD,OU=GROUPS,OU=CORP,DC=CACI,DC=COM</member>
+                    {% endfor %}
+                  {% else %}
+                    <member>any</member>
+                  {% endif %}
+                  </source-user>
+                  <category>
+                    <member>any</member>
+                  </category>
+                  <application>
+                    <member>any</member>
+                  </application>
+                  <service>
+                  {% for srv in services %}
+                    <member>{{ srv }}</member>
+                  {% endfor %}
+                  </service>
+                  <source-hip>
+                    <member>any</member>
+                  </source-hip>
+                  <destination-hip>
+                    <member>any</member>
+                  </destination-hip>
+                  <action>{{ action }}</action>
+                  <log-setting>default</log-setting>
+                </entry>

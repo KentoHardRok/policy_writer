@@ -1,0 +1,36 @@
+                <entry name={{ '"src_nat_' ~ rule_name.lstrip("\"") }}>
+                  <source-translation>
+                    <dynamic-ip-and-port>
+                      <translated-address>
+                        {% for ip in ippool %}
+                        <member>{{ ip }}</member>
+                        {% endfor %}
+                      </translated-address>
+                    </dynamic-ip-and-port>
+                  </source-translation>
+                  <to>
+                  {% for dz in dstzone %}
+                    <member>{{ dz }}</member>
+                  {% endfor %}
+                  </to>
+                  <from>
+                  {% for sz in srczone %}
+                    <member>{{ sz }}</member>
+                  {% endfor %}
+                  </from>
+                  <source>
+                  {% for si in srcip %}
+                    <member>{{ si }}</member>
+                  {% endfor %}
+                  </source>
+                  <destination>
+                  {% for di in dstip %}
+                    <member>{{ di }}</member>
+                  {% endfor %}
+                  </destination>
+                  <service>
+                  {% for srv in services %}
+                    <member>{{ srv }}</member>
+                  {% endfor %}
+                  </service>
+                </entry>

@@ -26,7 +26,7 @@ def split_num(x):
         return pd.Series([left, right])
 
 #Import csv of grp definitions into pandas df
-dfsrv = pd.read_csv('va3_serv.csv')
+dfsrv = pd.read_csv('va1_serv.csv')
 
 dfsrv['name'] = dfsrv['name'].apply(lambda x: '"' + x + '"')
 
@@ -34,7 +34,7 @@ dfsrv['name'] = dfsrv['name'].apply(lambda x: '"' + x + '"')
 dfsrv['name'] = dfsrv.apply(lambda row: nc(row['name']) if
         pd.notna(row['name']) else row['name'], axis=1)
 
-dfsrv['name'].to_csv('va3_srvname_only.csv', index=False)
+dfsrv['name'].to_csv('va1_srvname_only.csv', index=False)
 
 # convert member to list of members
 dfsrv['member'] = dfsrv['member'].str.split('|').tolist()
@@ -46,7 +46,7 @@ dfsrv['member'] = dfsrv['member'].apply(lambda x: apply_nc(x) if isinstance(x, l
 with open('addsrvgroup_xml.j2') as Gfile:
     template_grp = Template(Gfile.read())
 
-with open('config/va3_srvgrp_config.xml', 'a') as f:
+with open('config/va1_srvgrp_config.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <service-group>\n')

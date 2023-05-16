@@ -19,12 +19,17 @@ dfadd = pd.read_csv('va3_name_only.csv')
 dfadd['name'] = dfadd['name'].apply(lambda x: '"' + x + '"')
 dfgrp['name'] = dfgrp['name'].apply(lambda x: '"' + x + '"')
 
+dfgrp['origin'] = dfgrp['member'].copy()
+dfgrp['origin'] = dfgrp['origin'].str.split('\n').tolist()
+
 #format the name column
 dfgrp['name'] = dfgrp.apply(lambda row: nc(row['name']) if
         pd.notna(row['name']) else row['name'], axis=1)
 
 # apply the function to the 'string' column
 dfgrp['member'] = dfgrp['member'].apply(extract_strings)
+
+dfgrp[['member', 'origin']].to_csv('origin_names.csv', index=False)
 
 # ok now we try to convert each item of the datafrae list to the list save in
 dfgrp['member'] = dfgrp['member'].apply(lambda x: [nc(name) for name
@@ -43,7 +48,6 @@ dfgrp['member'] = dfgrp['member'].apply(lambda x: x.strip('"') if isinstance(x, 
 
 dfgrp['name'] = dfgrp['name'].str.replace(r'^"[^a-zA-Z0-9]+', '"', regex=True)
 
-dfgrp['name'].to_csv('va3_grpname_only.csv', index=False)
 
 # open template
 with open('addgrp_xml.j2') as file:

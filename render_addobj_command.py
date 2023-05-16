@@ -53,7 +53,7 @@ dfprint['name'].to_csv('va3_name_only.csv', index=False)
 with open('addobj_temp.j2') as file:
         template = Template(file.read())
 
-with open('va3_addobj_config.txt', 'a') as f:
+with open('config/va3_addobj_config.txt', 'a') as f:
     for _, row in df[df['visibility'] != 'disabled'].iterrows():
         # Below we are assigning values to each of the values used in the template
         # per row

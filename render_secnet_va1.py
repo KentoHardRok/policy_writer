@@ -16,6 +16,9 @@ def check_names(lst):
 def check_service(lst):
     return all([item in dfsrv['name'].values for item in lst])
 
+def check_appid(lst):
+    return all([item in dfappid['name'].values for item in lst])
+
 def add_zone_column(dfpol, intf_col_name, dfzone, default_value='unknown'):
     dfpol[intf_col_name] = dfpol[intf_col_name].apply(lambda lst: sorted(lst))
     dfpol.sort_values(intf_col_name, inplace=True)
@@ -45,6 +48,7 @@ dfgrp = pd.read_csv('va1_grpname_only.csv')
 dfsrv = pd.read_csv('va1_srvname_only.csv')
 dfzone = pd.read_csv('va1_zone.csv')
 dfqdn = pd.read_csv('va1_customurlname_only.csv')
+dfappid = pd.read_csv('va1_appidname_only.csv')
 
 dfpol['name'] = dfpol['name'].astype('string')
 dfpol['name'] = dfpol.apply(lambda row: str(row['id']) if pd.isna(row['name']) else row['name'], axis=1)
@@ -75,6 +79,7 @@ dfpol['groups'] = dfpol['groups'].apply(lambda x: apply_nc(x) if isinstance(x, l
 dfpol['srcaddr_pass'] = dfpol['srcaddr'].apply(lambda x: check_names(x))
 dfpol['dstaddr_pass'] = dfpol['dstaddr'].apply(lambda x: check_names(x))
 dfpol['service_pass'] = dfpol['service'].apply(lambda x: check_service(x))
+dfpol['tag'] = dfpol['service'].apply(lambda x: check_appid(x))
 
 # Here we take care of the int to zone conversion. ARG!
 dfpol = add_zone_column(dfpol, 'srcintf', dfzone, default_value='CACI-Trust')
@@ -146,7 +151,7 @@ with open('secpol_start_xml.j2') as file:
 with open('secpol_end_xml.j2') as file:
     template_end = Template(file.read())
 
-with open('config/va1_secpol_fail_desc.xml', 'a') as f:
+with open('config/va1_secpol.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <devices>\n')
     f.write('    <entry name="localhost.localdomain">\n')
@@ -180,6 +185,7 @@ with open('config/va1_secpol_fail_desc.xml', 'a') as f:
                     dstadd_fail=row['dstaddr_pass'],
                     srv_fail=row['service_pass'],
                     customurl=row['custom'],
+                    tag=row['tag'],
                     services=row['service']
                 )
             # Remove empty lines from the rendered output

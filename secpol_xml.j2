@@ -84,6 +84,11 @@
                   <destination-hip>
                     <member>any</member>
                   </destination-hip>
+                  {% if tag %}
+                  <tag>
+                    <member>CONVERT_CustomURL_Wildcard</member>
+                  <tag>
+                  {% endif %}
                   <action>{{ action }}</action>
                   <log-setting>default</log-setting>
                 </entry>
@@ -173,6 +178,11 @@
                   <destination-hip>
                     <member>any</member>
                   </destination-hip>
+                  {% if tag %}
+                  <tag>
+                    <member>CONVERT_CustomURL_Wildcard</member>
+                  <tag>
+                  {% endif %}
                   <action>{{ action }}</action>
                   <log-setting>default</log-setting>
                 </entry>

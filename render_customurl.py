@@ -4,7 +4,7 @@ from altr_df_alt import NameConvert as nc
 import re
 
 # This is where I read in the CSV file and save it to the Pandas DF
-df = pd.read_csv('va3_add.csv')
+df = pd.read_csv('~/aws_add.csv')
 
 df['name'] = df.apply(lambda row: nc(row['name']) if pd.notna(row['name']) else row['name'], axis=1)
 df['name'] = df['name'].str.replace(r'^\W+', '', regex=True)
@@ -24,13 +24,13 @@ dfqdn = dfqdn[(dfqdn['fqdn'].str.startswith(('.', '*')) | dfqdn['fqdn'].str.ends
 
 dfqdn['fqdn'] = dfqdn['fqdn'].str.split('\n').tolist()
 
-dfqdn['name'].to_csv('va3_customurlname_only.csv', index=False)
+dfqdn['name'].to_csv('aws_customurlname_only.csv', index=False)
 
 # Opening the template
 with open('custom_url_xml.j2') as file:
         template = Template(file.read())
 
-with open('config/va3_customurl_config.xml', 'a') as f:
+with open('config/aws_customurl_config.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <profiles>\n')
@@ -51,4 +51,3 @@ with open('config/va3_customurl_config.xml', 'a') as f:
     f.write('    </profiles>\n')
     f.write('  </shared>\n')
     f.write('</config>\n')
-

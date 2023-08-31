@@ -13,8 +13,8 @@ def extract_strings(string):
 
 
 #Import csv of grp definitions into pandas df
-dfgrp = pd.read_csv('va3_grp.csv')
-dfadd = pd.read_csv('va3_name_only.csv')
+dfgrp = pd.read_csv('~/aws_grp.csv')
+dfadd = pd.read_csv('aws_name_only.csv')
 
 dfadd['name'] = dfadd['name'].apply(lambda x: '"' + x + '"')
 dfgrp['name'] = dfgrp['name'].apply(lambda x: '"' + x + '"')
@@ -49,11 +49,14 @@ dfgrp['member'] = dfgrp['member'].apply(lambda x: x.strip('"') if isinstance(x, 
 dfgrp['name'] = dfgrp['name'].str.replace(r'^"[^a-zA-Z0-9]+', '"', regex=True)
 
 
+# export the "name" column to a new CSV file
+dfgrp['name'].to_csv('aws_grpname_only.csv', index=False)
+
 # open template
 with open('addgrp_xml.j2') as file:
     template = Template(file.read())
 
-with open('config/va3_addgrp.xml', 'a') as f:
+with open('config/aws_addgrp.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <address-group>\n')

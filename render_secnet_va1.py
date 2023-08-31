@@ -42,13 +42,13 @@ def find_matches(row):
 
 
 #Import csv of grp definitions into pandas df
-dfpol = pd.read_csv('va1_pol.csv')
-dfadd = pd.read_csv('va1_name_only.csv')
-dfgrp = pd.read_csv('va1_grpname_only.csv')
-dfsrv = pd.read_csv('va1_srvname_only.csv')
-dfzone = pd.read_csv('va1_zone.csv')
-dfqdn = pd.read_csv('va1_customurlname_only.csv')
-dfappid = pd.read_csv('va1_appidname_only.csv')
+dfpol = pd.read_csv('~/aws_pol.csv')
+dfadd = pd.read_csv('aws_name_only.csv')
+dfgrp = pd.read_csv('aws_grpname_only.csv')
+dfsrv = pd.read_csv('aws_srvname_only.csv')
+dfzone = pd.read_csv('~/aws_zone.csv')
+dfqdn = pd.read_csv('aws_customurlname_only.csv')
+dfappid = pd.read_csv('aws_appidname_only.csv')
 
 dfpol['name'] = dfpol['name'].astype('string')
 dfpol['name'] = dfpol.apply(lambda row: str(row['id']) if pd.isna(row['name']) else row['name'], axis=1)
@@ -125,10 +125,10 @@ dfdev = dfpol.groupby('devgroup')
 
 # and create multiple datasets
 dfdev_1 = dfdev.get_group('Global_Internet_Egress')
-dfdev_2 = dfdev.get_group('VA1_Edge_Vsys')
+dfdev_2 = dfdev.get_group('aws_Edge_Vsys')
 # dfdev_3 = dfdev.get_highest_priority = lambda zone_list:
 # dfzone.loc[dfzone['zone'].isin(zone_list), 'priority'].max(get_group('Guest_Firewall')
-# dfdev_4 = dfdev.get_group('VA1_Guest')
+# dfdev_4 = dfdev.get_group('aws_Guest')
 
 # Now lets sort them by the ID column to make sure they go in the right order
 dfdev_1 = dfdev_1.sort_values('id')
@@ -151,7 +151,7 @@ with open('secpol_start_xml.j2') as file:
 with open('secpol_end_xml.j2') as file:
     template_end = Template(file.read())
 
-with open('config/va1_secpol.xml', 'a') as f:
+with open('config/aws_secpol.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <devices>\n')
     f.write('    <entry name="localhost.localdomain">\n')

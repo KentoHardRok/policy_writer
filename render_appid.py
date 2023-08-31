@@ -4,7 +4,7 @@ from altr_df_alt import NameConvert as nc
 from jinja2 import Template
 
 #Import csv of grp definitions into pandas df
-dfsrv = pd.read_csv('va3_serv.csv')
+dfsrv = pd.read_csv('~/aws_serv.csv')
 
 dfsrv['name'] = dfsrv['name'].apply(lambda x: '"' + x + '"')
 
@@ -12,17 +12,17 @@ dfsrv['name'] = dfsrv['name'].apply(lambda x: '"' + x + '"')
 dfsrv['name'] = dfsrv.apply(lambda row: nc(row['name']) if
         pd.notna(row['name']) else row['name'], axis=1)
 
-dfsrv['name'].to_csv('va3_appid_obj.csv', index=False)
+dfsrv['name'].to_csv('aws_appid_obj.csv', index=False)
 
 dfsrv = dfsrv[pd.notna(dfsrv['protocol'])]
 
-dfsrv['name'].to_csv('va3_appidname_only.csv', index=False)
+dfsrv['name'].to_csv('aws_appidname_only.csv', index=False)
 
 # open template
 with open('addappid_xml.j2') as file:
     template = Template(file.read())
 
-with open('config/va3_appid.xml', 'a') as f:
+with open('config/aws_appid.xml', 'a') as f:
     f.write('<config>\n')
     f.write('  <shared>\n')
     f.write('    <service>\n')
